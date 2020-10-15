@@ -8,15 +8,15 @@ import (
 	
 )
 
+
 func CreateRab(c *gin.Context){
 	var rab rab.RABList
-	_ = c.ShouldBindJSON(&rab) // ini gunanya buat apa ya 
-	result := service.RabServiceInterface.CreateRab(rab)
+	 _ = c.ShouldBindJSON(&rab)
+	result := service.RabService.CreateRab(rab)
 	c.JSON(http.StatusOK,result)
 }
 
 func GetRabList(c *gin.Context){
-	c.JSON(http.StatusOK,gin.H{
-		"message":"ok!",
-	})
+	result := service.RabService.GetRabList()
+	c.JSON(http.StatusOK,result)
 }

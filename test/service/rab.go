@@ -5,22 +5,23 @@ import (
 	"test/domain/rab"
 )
 
+var (
+	RabService RabServiceInterface = &rabService{}
+)
+
+
 type RabServiceInterface interface{
 	CreateRab(rab.RABList) (*rab.ResResponse)
 	GetRabList() []rab.RABList
 }
 
-type RabService struct {
+type rabService struct {
 	rabs []rab.RABList
 }
 
-func New() RabServiceInterface{
-	return &RabService{
-		rabs : []rab.RABList{},
-	}
-}
 
-func (r *RabService) CreateRab(data rab.RABList) (*rab.ResResponse){
+
+func (r *rabService) CreateRab(data rab.RABList) (*rab.ResResponse){
 	r.rabs = append(r.rabs,data)
 	return &rab.ResResponse{
 		Status :http.StatusOK,
@@ -29,6 +30,6 @@ func (r *RabService) CreateRab(data rab.RABList) (*rab.ResResponse){
 	}
 }
 
-func (r *RabService) GetRabList()[]rab.RABList{
+func (r *rabService) GetRabList()[]rab.RABList{
 	return r.rabs
 }
