@@ -3,7 +3,7 @@ package controller
 import (
 	"tes2/domain"
 	"github.com/gin-gonic/gin"
-	"fmt"
+	//"fmt"
 	"net/http"
 	"tes2/service"
 	"strconv"
@@ -25,7 +25,7 @@ func CreateBorrower(c *gin.Context){
 func DeleteBorrower(c *gin.Context){
 	id,_ := strconv.ParseInt(c.Param("id"),10,64)
 	result := service.BorrowerService.DeleteBorrower(id)
-	fmt.Println(result)
+	c.JSON(http.StatusOK,result)
 }
 
 func EditBorrower(c *gin.Context){

@@ -2,6 +2,9 @@ package application
 
 import (
 	"github.com/gin-gonic/gin"
+	
+
+
 )
 
 var (
@@ -9,6 +12,8 @@ var (
 )
 
 func Start(){
+
+	
 	mapUrls()
 	router.Run()
 

@@ -9,7 +9,7 @@ import (
 type BorrowerServiceInterface interface {
 	GetBorrower() []rab.Borrower
 	CreateBorrower(rab.Borrower) rab.Borrower
-	DeleteBorrower(int64) string
+	DeleteBorrower(int64) *rab.RestResponse
 	EditBorrower(int64, rab.Borrower) rab.Borrower
 }
 
@@ -30,14 +30,20 @@ func (b *borrowerService) CreateBorrower(data rab.Borrower) rab.Borrower {
 	return data
 }
 
-func (b *borrowerService) DeleteBorrower(id int64) string {
+func (b *borrowerService) DeleteBorrower(id int64) *rab.RestResponse {
 	var deleteStatus bool = false
+	
 	var newList []rab.Borrower
 	if len(b.listBorrower) == 0 {
-		return "Data kosong, tidak bisa delete"
+		result := &rab.RestResponse{
+			Status:200,
+			Data:nil,
+			Message:"Data Kosong tidak bisa delete",
+		}
+		return result
 	} else {
 		for i, _ := range b.listBorrower {
-			if int64(b.listBorrower[i].BId) == id {
+			if int64(b.listBorrower[i].BorrowerId) == id {
 				deleteStatus = true
 			} else {
 				newList = append(newList, b.listBorrower[i])
@@ -45,9 +51,19 @@ func (b *borrowerService) DeleteBorrower(id int64) string {
 		}
 		if deleteStatus == true {
 			b.listBorrower = newList
-			return "Deleted"
+			result := &rab.RestResponse{
+				Status:200,
+				Data:nil,
+				Message:"Berhasil Delete",
+			}
+			return result
 		}
-		return "Data not Found"
+		result := &rab.RestResponse{
+			Status:200,
+			Data:nil,
+			Message:"Data Not Found",
+		}
+		return result
 
 	}
 }
@@ -55,7 +71,7 @@ func (b *borrowerService) DeleteBorrower(id int64) string {
 func (b *borrowerService) EditBorrower(id int64, data rab.Borrower) rab.Borrower {
 	var editStatus bool = false
 	for i, _ := range b.listBorrower {
-		if int64(b.listBorrower[i].BId) == id{
+		if int64(b.listBorrower[i].BorrowerId) == id{
 			editStatus = true
 			b.listBorrower[i].Age = data.Age
 			b.listBorrower[i].Firstname = data.Firstname

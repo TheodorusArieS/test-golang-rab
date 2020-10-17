@@ -19,8 +19,14 @@ func GetRabList(c *gin.Context){
 
 func CreateRab(c *gin.Context){
 	var rab rab.RabList
-	_ = c.ShouldBindJSON(&rab)
-	fmt.Println(c,"Ada di create RAb")
-	result := service.RabService.CreateRab(rab)
-	c.JSON(http.StatusOK,result)
+	if err := c.ShouldBindJSON(&rab) ; err != nil{
+
+		fmt.Println(c,"Ada di create RAb")
+		result := service.RabService.CreateRab(rab)
+		c.JSON(http.StatusOK,result)
+
+	} else {
+		c.JSON(http.StatusBadRequest,gin.H{"error":"Invalid type format"})
+	}
+
 }
