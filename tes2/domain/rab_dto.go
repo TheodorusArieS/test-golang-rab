@@ -2,11 +2,12 @@ package rab
 
 
 type RabList struct{
+	Rab_Id string `json:"rab_id"`
 	Name string `json:"name" binding:"required"`
 	Comodity string `json:"comodity" binding:"required"`
 	Quantity string `json:"quantity" binding:"required"`
 	Description string `json:"description"`
-	Borrower Borrower `json:"borrower"`
+	Borrower Borrower `json:"borrower_id"`
 }
 
 type Borrower struct{

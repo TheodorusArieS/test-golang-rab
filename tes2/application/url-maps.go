@@ -12,6 +12,8 @@ func mapUrls(){
 	{
 		rab.GET("/",controller.GetRabList)
 		rab.POST("/",controller.CreateRab)
+		rab.PUT("/:id",controller.EditRab)
+		rab.DELETE("/:id",controller.DeleteRab)
 	}
 	borrower := router.Group("/borrower")
 	{

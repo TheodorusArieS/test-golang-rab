@@ -3,12 +3,15 @@ package service
 import (
 	"fmt"
 	"tes2/domain"
+	// "net/http"
 
 )
 
 type RabServiceInterface interface{
 	GetRabList()*rab.RestResponse
-	CreateRab(rab.RabList) rab.RabList	
+	CreateRab(rab.RabList) *rab.RestResponse
+	EditRab(int64,rab.RabList) *rab.RestResponse
+	DeleteRab(int64) *rab.RestResponse
 }
 
 var (
@@ -16,32 +19,48 @@ var (
 )
 
 type rabService struct{
-	rabs []rab.RabList
+	// rabs []rab.RabList
 }
 
-func New() RabServiceInterface{
-	return &rabService{
-		rabs :[]rab.RabList{},
-	}
-}
+// func New() RabServiceInterface{
+// 	return &rabService{
+// 		rabs :[]rab.RabList{},
+// 	}
+// }
 
 func (r *rabService) GetRabList()*rab.RestResponse{
 	fmt.Println("sudah masuk GetRABList Service")
 	dao := &rab.RabList{}
 	result, err := dao.GetRabList()
+	
 	if err != nil{
 		return err
 	}
 
+
 	return result
 }
 
-func (r *rabService) CreateRab(data rab.RabList) rab.RabList{
-	borrower :=BorrowerService.GetBorrower()
-	if borrower !=nil{
-		data.Borrower = borrower[0]
-	}
+func (r *rabService) CreateRab(data rab.RabList) *rab.RestResponse{
+	dao :=&rab.RabList{}
 	
-	r.rabs = append(r.rabs,data)
-	return data
+	result := dao.CreateRabList(data)
+	return result
+}
+
+func (r *rabService) EditRab(id int64,data rab.RabList) *rab.RestResponse{
+	dao :=&rab.RabList{}
+	result := dao.EditRab(id,data)
+	// result1:=&rab.RestResponse{
+	// 	Status:200,
+	// 	Data :nil,
+	// 	Message:"ada di dalam edit service",
+	// }
+	return result
+}
+func (r *rabService) DeleteRab(id int64) *rab.RestResponse{
+	fmt.Println(id)
+	dao := &rab.RabList{}
+	result :=dao.DeleteRab(id)
+	return result
 }
